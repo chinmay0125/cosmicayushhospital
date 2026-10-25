@@ -670,7 +670,7 @@ nav.nav-solid {
 .video-scroll-wrap { overflow-x: auto; scrollbar-width: none; margin: 0 calc(-1 * clamp(16px,4vw,64px)); padding: 4px clamp(16px,4vw,64px) 16px; }
 .video-scroll-wrap::-webkit-scrollbar { display: none; }
 .video-scroll { display: flex; gap: 30px; width: max-content; }
-.vt-card { border-radius: var(--r-md); overflow: hidden; background: var(--white); border: 1px solid var(--stroke-2); transition: transform 0.2s, box-shadow 0.2s; width: 270px; flex-shrink: 0; }
+.vt-card { border-radius: var(--r-md); overflow: hidden; background: #0a1a14; border: 1px solid var(--stroke-2); transition: transform 0.2s, box-shadow 0.2s; width: 270px; flex-shrink: 0; line-height: 0; }
 .vt-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
 .vt-thumb {
   width: 100%; aspect-ratio: 9/16;
@@ -697,11 +697,6 @@ nav.nav-solid {
 .vt-play:hover { transform: scale(1.1); }
 .vt-dur { position: absolute; bottom: 10px; right: 12px; background: rgba(0,0,0,0.6); color: #fff; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 6px; z-index: 2; }
 .vt-feat-badge { position: absolute; top: 12px; left: 12px; background: var(--grad); color: var(--on-grad); font-size: 10px; font-weight: 800; padding: 3px 10px; border-radius: 100px; z-index: 2; letter-spacing: 0.05em; }
-.vt-info { padding: 14px 16px; }
-.vt-name { font-size: 13px; font-weight: 700; color: var(--ink); margin-bottom: 3px; line-height: 1.35; }
-.vt-dept { font-size: 11px; color: var(--ink-3); }
-.vt-meta-row { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 6px; }
-.vt-meta-row span { font-size: 10px; color: var(--ink-2); font-weight: 600; background: var(--bg-2); padding: 2px 8px; border-radius: 100px; }
 /* YouTube thumbnail auto-loaded via JS */
 .vt-yt-thumb {
   background-size: cover; background-position: center;
@@ -1104,7 +1099,23 @@ nav.nav-solid {
 .ylc-points li { font-size: 12px; color: var(--ink-2); line-height: 1.7; }
 .ylc-duration { font-size: 11px; color: var(--mint); font-weight: 700; background: rgba(61,201,154,0.1); padding: 5px 10px; border-radius: 6px; }
 .yoga-why-sec { background: var(--bg); padding: clamp(60px,7vw,90px) clamp(16px,4vw,64px); }
-.yoga-why-grid { display: grid; grid-template-columns: 1fr; max-width: 720px; }
+.yoga-why-grid { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: clamp(24px,4vw,48px); align-items: stretch; width: 100%; max-width: none; margin: 0; }
+.yoga-why-video {
+  position: relative; display: flex; align-items: center; justify-content: center;
+  min-height: 460px; height: 100%; border-radius: 14px; overflow: hidden;
+  background: #0a1a14; cursor: pointer; border: none; padding: 0;
+}
+.yoga-why-video img {
+  position: absolute; top: 50%; left: 50%;
+  width: 178%; height: auto; max-width: none; min-height: 100%;
+  transform: translate(-50%, -50%);
+  object-fit: cover; object-position: center; display: block;
+}
+.yoga-why-video::before {
+  content: ''; position: absolute; inset: 0; z-index: 1;
+  background: linear-gradient(to bottom, rgba(5,20,15,0.08) 0%, rgba(5,20,15,0.45) 100%);
+}
+.yoga-why-video .vt-play { position: relative; z-index: 2; }
 .yoga-why-points { display: flex; flex-direction: column; gap: 24px; margin-top: 28px; }
 .yoga-why-point { display: flex; gap: 16px; align-items: flex-start; }
 .ywp-icon { width: 44px; height: 44px; border-radius: 12px; background: var(--grad); display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
@@ -1273,6 +1284,8 @@ footer {
   .yoga-hero { grid-template-columns: 1fr; }
   .yoga-hero-img { display: none; }
   .yoga-about-grid { grid-template-columns: 1fr; }
+  .yoga-why-grid { grid-template-columns: 1fr; max-width: none; margin: 0; }
+  .yoga-why-video { min-height: 0; height: auto; aspect-ratio: 4 / 5; max-height: 560px; }
   .yoga-levels-grid { grid-template-columns: repeat(2,1fr); }
   .gallery-grid { grid-template-columns: repeat(2,1fr); }
   .g-item.g-wide { grid-column: span 1; }
@@ -1759,7 +1772,6 @@ const IMAGES = {
 
     <!-- Video testimonials — horizontal scroll, 9:16 reel ratio -->
     <div class="video-label">
-      <div class="sec-eyebrow">Video Stories</div>
       <h3 class="sec-title" style="font-size:clamp(22px,2.5vw,32px)">Watch Their <em><span class="c-mint">Journeys</span></em></h3>
     </div>
     <div class="video-scroll-wrap">
@@ -1770,48 +1782,35 @@ const IMAGES = {
             <button class="vt-play" onclick="openVideo('https://www.youtube.com/embed/5-vW1q3HUmY?si=dqePyUhVqXPMcfIf')">▶</button>
             <div class="vt-dur">2:34</div>
           </div>
-          <div class="vt-info"><div class="vt-name">Ravi Kumar</div><div class="vt-dept">Civil Engineer</div><div class="vt-meta-row"><span>🎂 48</span><span>🩺 Back Pain</span><span>📍 Vellore</span></div></div>
         </div>
-        <div class="vt-card" data-yt="pVOGPHVQ3xk">
+        <div class="vt-card" data-yt="FhImxcsuupI">
           <div class="vt-thumb">
-            <img class="vt-yt-img" src="https://img.youtube.com/vi/pVOGPHVQ3xk/hqdefault.jpg" alt="Sunita Iyer" onerror="this.src='https://img.youtube.com/vi/pVOGPHVQ3xk/mqdefault.jpg'">
-            <button class="vt-play" onclick="openVideo('pVOGPHVQ3xk')">▶</button>
+            <img class="vt-yt-img" src="https://img.youtube.com/vi/FhImxcsuupI/hqdefault.jpg" alt="Sunita Iyer" onerror="this.src='https://img.youtube.com/vi/FhImxcsuupI/mqdefault.jpg'">
+            <button class="vt-play" onclick="openVideo('https://www.youtube.com/embed/FhImxcsuupI')">▶</button>
             <div class="vt-dur">5:12</div>
             <div class="vt-feat-badge">Feature</div>
           </div>
-          <div class="vt-info"><div class="vt-name">Sunita Iyer</div><div class="vt-dept">Retired Teacher</div><div class="vt-meta-row"><span>🎂 60</span><span>🩺 Diabetes</span><span>📍 Chennai</span></div></div>
         </div>
-        <div class="vt-card" data-yt="pVOGPHVQ3xk">
+        <div class="vt-card" data-yt="_eesxA91Ydw">
           <div class="vt-thumb">
-            <img class="vt-yt-img" src="https://img.youtube.com/vi/pVOGPHVQ3xk/hqdefault.jpg" alt="Priya Anand" onerror="this.src='https://img.youtube.com/vi/pVOGPHVQ3xk/mqdefault.jpg'">
-            <button class="vt-play" onclick="openVideo('pVOGPHVQ3xk')">▶</button>
+            <img class="vt-yt-img" src="https://img.youtube.com/vi/_eesxA91Ydw/hqdefault.jpg" alt="Priya Anand" onerror="this.src='https://img.youtube.com/vi/_eesxA91Ydw/mqdefault.jpg'">
+            <button class="vt-play" onclick="openVideo('https://www.youtube.com/embed/_eesxA91Ydw')">▶</button>
             <div class="vt-dur">3:48</div>
           </div>
-          <div class="vt-info"><div class="vt-name">Priya Anand</div><div class="vt-dept">Marketing Manager</div><div class="vt-meta-row"><span>🎂 31</span><span>🩺 Anxiety</span><span>📍 Chennai</span></div></div>
         </div>
-        <div class="vt-card" data-yt="pVOGPHVQ3xk">
+        <div class="vt-card" data-yt="Tpv8HLLr8dk">
           <div class="vt-thumb">
-            <img class="vt-yt-img" src="https://img.youtube.com/vi/pVOGPHVQ3xk/hqdefault.jpg" alt="Arjun Selvam" onerror="this.src='https://img.youtube.com/vi/pVOGPHVQ3xk/mqdefault.jpg'">
-            <button class="vt-play" onclick="openVideo('pVOGPHVQ3xk')">▶</button>
-            <div class="vt-dur">4:05</div>
+            <img class="vt-yt-img" src="https://img.youtube.com/vi/Tpv8HLLr8dk/hqdefault.jpg" alt="Testimonials" onerror="this.src='https://img.youtube.com/vi/Tpv8HLLr8dk/mqdefault.jpg'">
+            <button class="vt-play" onclick="openVideo('https://www.youtube.com/embed/Tpv8HLLr8dk')">▶</button>
+            <div class="vt-dur">1:10</div>
           </div>
-          <div class="vt-info"><div class="vt-name">Arjun Selvam</div><div class="vt-dept">Yoga Instructor</div><div class="vt-meta-row"><span>🎂 29</span><span>🩺 YCB Certified</span><span>📍 Vellore</span></div></div>
         </div>
-        <div class="vt-card" data-yt="pVOGPHVQ3xk">
+        <div class="vt-card" data-yt="U8KQESVwWX8">
           <div class="vt-thumb">
-            <img class="vt-yt-img" src="https://img.youtube.com/vi/pVOGPHVQ3xk/hqdefault.jpg" alt="Kavitha Menon" onerror="this.src='https://img.youtube.com/vi/pVOGPHVQ3xk/mqdefault.jpg'">
-            <button class="vt-play" onclick="openVideo('pVOGPHVQ3xk')">▶</button>
-            <div class="vt-dur">3:21</div>
+            <img class="vt-yt-img" src="https://img.youtube.com/vi/U8KQESVwWX8/hqdefault.jpg" alt="Testimonials" onerror="this.src='https://img.youtube.com/vi/U8KQESVwWX8/mqdefault.jpg'">
+            <button class="vt-play" onclick="openVideo('https://www.youtube.com/embed/U8KQESVwWX8')">▶</button>
+            <div class="vt-dur">1:08</div>
           </div>
-          <div class="vt-info"><div class="vt-name">Kavitha Menon</div><div class="vt-dept">Homemaker</div><div class="vt-meta-row"><span>🎂 45</span><span>🩺 Liver Detox</span><span>📍 Vellore</span></div></div>
-        </div>
-        <div class="vt-card" data-yt="pVOGPHVQ3xk">
-          <div class="vt-thumb">
-            <img class="vt-yt-img" src="https://img.youtube.com/vi/pVOGPHVQ3xk/hqdefault.jpg" alt="Mohan Rajan" onerror="this.src='https://img.youtube.com/vi/pVOGPHVQ3xk/mqdefault.jpg'">
-            <button class="vt-play" onclick="openVideo('pVOGPHVQ3xk')">▶</button>
-            <div class="vt-dur">2:58</div>
-          </div>
-          <div class="vt-info"><div class="vt-name">Mohan Rajan</div><div class="vt-dept">Bank Manager</div><div class="vt-meta-row"><span>🎂 55</span><span>🩺 Knee Arthritis</span><span>📍 Chennai</span></div></div>
         </div>
       </div>
     </div>
@@ -2370,6 +2369,10 @@ const IMAGES = {
           <div class="yoga-why-point"><div class="ywp-icon">📍</div><div><h4>Two Convenient Locations</h4><p>Enrol at either our Vellore or Chennai campus — both fully equipped for yoga training and YCB examinations.</p></div></div>
           <div class="yoga-why-point"><div class="ywp-icon">🎓</div><div><h4>Expert Faculty</h4><p>Learn from YCB-certified instructors with years of clinical and teaching experience across all four levels.</p></div></div>
         </div>
+      </div>
+      <div class="yoga-why-video" onclick="openVideo('https://www.youtube.com/embed/kMHoGh1wBNY')">
+        <img src="https://img.youtube.com/vi/kMHoGh1wBNY/hqdefault.jpg" alt="Yoga certification at Cosmic Ayush" onerror="this.src='https://img.youtube.com/vi/kMHoGh1wBNY/mqdefault.jpg'">
+        <button class="vt-play" type="button" aria-label="Play video" onclick="event.stopPropagation(); openVideo('https://www.youtube.com/embed/kMHoGh1wBNY')">▶</button>
       </div>
     </div>
   </section>
