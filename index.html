@@ -564,6 +564,8 @@ nav.nav-solid {
   background: rgba(61,201,154,0.10); border: 1px solid rgba(61,201,154,0.22);
   border-radius: 100px; padding: 3px 10px;
 }
+/* Mobile-only full-detail carousel. Desktop keeps the list + #progDetail. */
+.prog-carousel { display: none; }
 /* ── Modality cards — stronger text legibility ── */
 .mod-foot {
   position: static;
@@ -731,7 +733,7 @@ nav.nav-solid {
 .vt-featured .vt-thumb { height: 240px; }
 /* Video modal */
 .video-modal {
-  display: none; position: fixed; inset: 0; z-index: 300;
+  display: none; position: fixed; inset: 0; z-index: 1000;
   background: rgba(0,0,0,0.90); align-items: center; justify-content: center;
 }
 .video-modal.open { display: flex; }
@@ -1307,6 +1309,91 @@ footer {
   footer { grid-template-columns: 1fr 1fr; gap: 28px; }
   .footer-bottom { flex-direction: column; gap: 6px; text-align: center; }
 }
+/* Phone: hide the condition selector and the single detail panel.
+   Show every condition as its own card in a horizontal snap carousel.
+   769px and up keeps the existing list + #progDetail (including the
+   stacked layout between 769px and 960px). */
+@media (max-width: 768px) {
+  .programs-sec .programs-layout { display: none; }
+  .prog-carousel {
+    display: block;
+    margin-top: 28px;
+  }
+  .prog-carousel-track {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: 0;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    overscroll-behavior-x: contain;
+  }
+  .prog-carousel-track::-webkit-scrollbar { display: none; }
+  .prog-slide {
+    flex: 0 0 92%;
+    width: 92%;
+    scroll-snap-align: start;
+    display: flex;
+    flex-direction: column;
+    border-radius: var(--r-lg);
+    overflow: hidden;
+    background: #ffffff;
+    border: 1px solid rgba(176,220,200,0.35);
+    box-shadow: 0 2px 12px rgba(15,30,40,0.06);
+  }
+  .prog-slide-img {
+    width: 100%;
+    height: 210px;
+    flex: none;
+    background-size: cover;
+    background-repeat: no-repeat;
+    position: relative;
+  }
+  .prog-slide-img::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to bottom,
+      transparent 30%,
+      rgba(238,246,252,0.6) 75%,
+      #ffffff 100%
+    );
+  }
+  .prog-slide-body {
+    padding: 4px 18px 18px;
+    background: #ffffff;
+  }
+  .prog-carousel-dots {
+    display: flex;
+    justify-content: center;
+    gap: 2px;
+    margin-top: 12px;
+  }
+  .prog-carousel-dot {
+    width: 32px;
+    height: 32px;
+    border: 0;
+    padding: 0;
+    background: transparent;
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+  }
+  .prog-carousel-dot::before {
+    content: '';
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: rgba(15,30,40,0.2);
+    transition: background 0.2s, transform 0.2s;
+  }
+  .prog-carousel-dot.active::before {
+    background: var(--mint);
+    transform: scale(1.35);
+  }
+}
 @media (max-width: 640px) {
   .fs-card { flex-direction: column; min-height: 0; }
   .fs-card-photo {
@@ -1638,6 +1725,10 @@ const IMAGES = {
       </div>
 
     </div>
+
+    <!-- Mobile only: all six condition details as a sideways snap carousel.
+         Hidden at min-width 769px so desktop keeps a single #progDetail. -->
+    <div class="prog-carousel" id="progCarousel" aria-roledescription="carousel" aria-label="Conditions we reverse"></div>
   </section>
 
   <!-- Modalities — now below Programs -->
@@ -1815,23 +1906,6 @@ const IMAGES = {
       </div>
     </div>
   </section>
-
-  <!-- Video Modal -->
-  <div class="video-modal" id="videoModal" onclick="closeVideo(event)">
-    <div class="vm-inner">
-      <button class="vm-close" onclick="closeVideo()">✕</button>
-      <div id="vmFrameWrap"></div>
-      <div id="vmFallback" style="display:none;position:absolute;inset:0;background:#111;border-radius:12px;flex-direction:column;align-items:center;justify-content:center;gap:14px;text-align:center;padding:32px;">
-        <svg width="56" height="56" viewBox="0 0 56 56" fill="none"><circle cx="28" cy="28" r="28" fill="#FF0000"/><polygon points="22,18 42,28 22,38" fill="white"/></svg>
-        <p style="color:#fff;font-size:16px;font-weight:700;margin:0;">Embedding disabled for this video</p>
-        <p style="color:rgba(255,255,255,0.6);font-size:13px;margin:0;line-height:1.6;">The video owner has turned off embedding.<br>Click below to watch directly on YouTube.</p>
-        <a id="vmYtLink" href="#" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:10px;background:#FF0000;color:#fff;padding:13px 28px;border-radius:100px;font-weight:700;font-size:14px;text-decoration:none;">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M23.495 6.205a3.007 3.007 0 0 0-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 0 0 .527 6.205a31.247 31.247 0 0 0-.522 5.805 31.247 31.247 0 0 0 .522 5.783 3.007 3.007 0 0 0 2.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 0 0 2.088-2.088 31.247 31.247 0 0 0 .5-5.783 31.247 31.247 0 0 0-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/></svg>
-          Watch on YouTube
-        </a>
-      </div>
-    </div>
-  </div>
 
   <!-- Founder Spotlight -->
   <section class="founder-spotlight" id="founder-spotlight">
@@ -2370,9 +2444,9 @@ const IMAGES = {
           <div class="yoga-why-point"><div class="ywp-icon">🎓</div><div><h4>Expert Faculty</h4><p>Learn from YCB-certified instructors with years of clinical and teaching experience across all four levels.</p></div></div>
         </div>
       </div>
-      <div class="yoga-why-video" onclick="openVideo('https://www.youtube.com/embed/kMHoGh1wBNY')">
+      <div class="yoga-why-video" role="button" tabindex="0" onclick="event.preventDefault(); openVideo('https://www.youtube.com/embed/kMHoGh1wBNY'); return false;">
         <img src="https://img.youtube.com/vi/kMHoGh1wBNY/hqdefault.jpg" alt="Yoga certification at Cosmic Ayush" onerror="this.src='https://img.youtube.com/vi/kMHoGh1wBNY/mqdefault.jpg'">
-        <button class="vt-play" type="button" aria-label="Play video" onclick="event.stopPropagation(); openVideo('https://www.youtube.com/embed/kMHoGh1wBNY')">▶</button>
+        <button class="vt-play" type="button" aria-label="Play video" onclick="event.preventDefault(); event.stopPropagation(); openVideo('https://www.youtube.com/embed/kMHoGh1wBNY'); return false;">▶</button>
       </div>
     </div>
   </section>
@@ -2412,6 +2486,23 @@ const IMAGES = {
           <p>Your first consultation includes a detailed assessment of your body constitution, health history, and wellness goals — followed by a completely personalized natural treatment plan.</p>
         </div>
       </div>
+    </div>
+  </div>
+</div>
+
+<!-- Video Modal (body-level so it can open from any page) -->
+<div class="video-modal" id="videoModal" onclick="closeVideo(event)">
+  <div class="vm-inner">
+    <button class="vm-close" type="button" onclick="event.preventDefault(); closeVideo(); return false;">✕</button>
+    <div id="vmFrameWrap"></div>
+    <div id="vmFallback" style="display:none;position:absolute;inset:0;background:#111;border-radius:12px;flex-direction:column;align-items:center;justify-content:center;gap:14px;text-align:center;padding:32px;">
+      <svg width="56" height="56" viewBox="0 0 56 56" fill="none"><circle cx="28" cy="28" r="28" fill="#FF0000"/><polygon points="22,18 42,28 22,38" fill="white"/></svg>
+      <p style="color:#fff;font-size:16px;font-weight:700;margin:0;">Embedding disabled for this video</p>
+      <p style="color:rgba(255,255,255,0.6);font-size:13px;margin:0;line-height:1.6;">The video owner has turned off embedding.<br>Click below to watch directly on YouTube.</p>
+      <a id="vmYtLink" href="#" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:10px;background:#FF0000;color:#fff;padding:13px 28px;border-radius:100px;font-weight:700;font-size:14px;text-decoration:none;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M23.495 6.205a3.007 3.007 0 0 0-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 0 0 .527 6.205a31.247 31.247 0 0 0-.522 5.805 31.247 31.247 0 0 0 .522 5.783 3.007 3.007 0 0 0 2.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 0 0 2.088-2.088 31.247 31.247 0 0 0 .5-5.783 31.247 31.247 0 0 0-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/></svg>
+        Watch on YouTube
+      </a>
     </div>
   </div>
 </div>
@@ -2700,8 +2791,75 @@ function setProgram(idx) {
   document.querySelectorAll('.prog-item').forEach((el,i) => el.classList.toggle('prog-active', i === idx));
 }
 
+function buildProgCarousel() {
+  const root = document.getElementById('progCarousel');
+  if (!root || root.dataset.ready) return;
+  const track = document.createElement('div');
+  track.className = 'prog-carousel-track';
+  progData.forEach((d) => {
+    const slide = document.createElement('article');
+    slide.className = 'prog-slide';
+    const img = document.createElement('div');
+    img.className = 'prog-slide-img';
+    img.style.backgroundImage = `url('${d.img}')`;
+    img.style.backgroundPosition = d.pos || 'center';
+    img.setAttribute('role', 'img');
+    img.setAttribute('aria-label', d.badge);
+    const body = document.createElement('div');
+    body.className = 'prog-slide-body';
+    const badge = document.createElement('div');
+    badge.className = 'prog-detail-badge';
+    badge.textContent = d.badge;
+    const title = document.createElement('div');
+    title.className = 'prog-detail-title';
+    title.innerHTML = d.title;
+    const desc = document.createElement('p');
+    desc.className = 'prog-detail-desc';
+    desc.textContent = d.desc;
+    const tags = document.createElement('div');
+    tags.className = 'prog-detail-tags';
+    tags.innerHTML = d.tags.map(t => `<span class="prog-detail-tag">${t}</span>`).join('');
+    body.append(badge, title, desc, tags);
+    slide.append(img, body);
+    track.appendChild(slide);
+  });
+  const dots = document.createElement('div');
+  dots.className = 'prog-carousel-dots';
+  progData.forEach((_, i) => {
+    const dot = document.createElement('button');
+    dot.type = 'button';
+    dot.className = 'prog-carousel-dot' + (i === 0 ? ' active' : '');
+    dot.setAttribute('aria-label', 'Show ' + progData[i].badge);
+    dot.addEventListener('click', () => {
+      const slide = track.children[i];
+      if (!slide) return;
+      track.scrollTo({ left: slide.offsetLeft, behavior: 'smooth' });
+    });
+    dots.appendChild(dot);
+  });
+  root.append(track, dots);
+  root.dataset.ready = '1';
+  const syncDots = () => {
+    const slides = [...track.children];
+    if (!slides.length) return;
+    const origin = track.getBoundingClientRect().left;
+    let best = 0;
+    let bestDist = Infinity;
+    slides.forEach((slide, i) => {
+      const dist = Math.abs(slide.getBoundingClientRect().left - origin);
+      if (dist < bestDist) { bestDist = dist; best = i; }
+    });
+    dots.querySelectorAll('.prog-carousel-dot').forEach((dot, i) => {
+      dot.classList.toggle('active', i === best);
+      dot.setAttribute('aria-current', i === best ? 'true' : 'false');
+    });
+  };
+  track.addEventListener('scroll', syncDots, { passive: true });
+}
+
 window.addEventListener('DOMContentLoaded', () => {
   setProgram(0);
+  buildProgCarousel();
   const di = document.getElementById('f-date');
   if (di) di.min = new Date().toISOString().split('T')[0];
 });
@@ -2719,6 +2877,10 @@ function openVideo(embedSrc) {
   const wrap     = document.getElementById('vmFrameWrap');
   const fallback = document.getElementById('vmFallback');
   const ytLink   = document.getElementById('vmYtLink');
+
+  // #videoModal used to live inside #page-home. Inactive pages are
+  // display:none, which hides fixed descendants. Keep the lightbox on body.
+  if (modal.parentElement !== document.body) document.body.appendChild(modal);
 
   // Reset fallback
   fallback.style.display = 'none';
