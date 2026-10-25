@@ -1046,6 +1046,9 @@ nav.nav-solid {
 .g-item.g-tall { grid-row: span 2; }
 .g-item img { width: 100%; height: 100%; object-fit: cover; object-position: center; transition: transform 0.4s; display: block; }
 .g-item:hover img { transform: scale(1.07); }
+.g-item.g-doc { background: #f6f4ef; }
+.g-item.g-doc img { object-fit: contain; padding: 10px; box-sizing: border-box; }
+.g-item.g-doc:hover img { transform: none; }
 .g-overlay {
   position: absolute; inset: 0; background: linear-gradient(to top, rgba(5,20,15,0.75) 0%, transparent 55%);
   display: flex; flex-direction: column; justify-content: flex-end;
@@ -1414,6 +1417,7 @@ footer {
   .mod-grid, .mod-grid-home { grid-template-columns: repeat(2, 1fr); }
   .yoga-levels-grid { grid-template-columns: 1fr; }
   .gallery-grid { grid-template-columns: repeat(2,1fr); grid-auto-rows: 160px; }
+  .g-item.g-doc { grid-column: 1 / -1; grid-row: span 3; }
   .testi-card.active { flex-direction: row; gap: 12px; align-items: flex-start; }
   .testi-person-photo { width: 90px; min-height: 120px; height: auto; flex-shrink: 0; border-radius: 10px; }
   .testi-card { padding: 16px; }
@@ -1682,31 +1686,36 @@ const IMAGES = {
       <!-- LEFT: condition list -->
       <div class="prog-list" id="progList">
         <div class="prog-item prog-active" data-idx="0" onmouseenter="setProgram(0)">
-          <div class="prog-icon">🔄</div>
-          <div class="prog-body"><h4>Lifestyle Disease Reversal</h4><p>Diabetes, BP, obesity &amp; chronic conditions</p></div>
+          <div class="prog-icon">🫁</div>
+          <div class="prog-body"><h4>Detoxification &amp; Rejuvenation</h4><p>Full-body cleanse to restore vitality</p></div>
           <span class="prog-arrow">→</span>
         </div>
         <div class="prog-item" data-idx="1" onmouseenter="setProgram(1)">
-          <div class="prog-icon">🫁</div>
-          <div class="prog-body"><h4>Detox &amp; Rejuvenation</h4><p>Full-body cleanse to restore vitality</p></div>
-          <span class="prog-arrow">→</span>
-        </div>
-        <div class="prog-item" data-idx="2" onmouseenter="setProgram(2)">
           <div class="prog-icon">🧠</div>
           <div class="prog-body"><h4>Migraine &amp; Stress Management</h4><p>Natural relief from chronic pain &amp; anxiety</p></div>
           <span class="prog-arrow">→</span>
         </div>
+        <div class="prog-item" data-idx="2" onmouseenter="setProgram(2)">
+          <div class="prog-icon">🩺</div>
+          <div class="prog-body"><h4>Diabetes &amp; Obesity Management</h4><p>Diabetes, obesity &amp; metabolic care</p></div>
+          <span class="prog-arrow">→</span>
+        </div>
         <div class="prog-item" data-idx="3" onmouseenter="setProgram(3)">
           <div class="prog-icon">🦴</div>
-          <div class="prog-body"><h4>Spine &amp; Joint Rehabilitation</h4><p>Back pain, sciatica, disc prolapse &amp; more</p></div>
+          <div class="prog-body"><h4>Spine, Joint &amp; Musculoskeletal Rehabilitation</h4><p>Back pain, sciatica, disc prolapse &amp; more</p></div>
           <span class="prog-arrow">→</span>
         </div>
         <div class="prog-item" data-idx="4" onmouseenter="setProgram(4)">
-          <div class="prog-icon">💚</div>
-          <div class="prog-body"><h4>Preventive Wellness</h4><p>Immunity, corporate wellness &amp; healthy aging</p></div>
+          <div class="prog-icon">🔄</div>
+          <div class="prog-body"><h4>Lifestyle Disease Reversal</h4><p>Diabetes, BP, obesity &amp; chronic conditions</p></div>
           <span class="prog-arrow">→</span>
         </div>
         <div class="prog-item" data-idx="5" onmouseenter="setProgram(5)">
+          <div class="prog-icon">💚</div>
+          <div class="prog-body"><h4>Preventive Health &amp; Positive Wellness</h4><p>Immunity, corporate wellness &amp; healthy aging</p></div>
+          <span class="prog-arrow">→</span>
+        </div>
+        <div class="prog-item" data-idx="6" onmouseenter="setProgram(6)">
           <div class="prog-icon">⚕️</div>
           <div class="prog-body"><h4>Pain Management</h4><p>Drugless approaches for acute &amp; chronic pain</p></div>
           <span class="prog-arrow">→</span>
@@ -1715,18 +1724,18 @@ const IMAGES = {
 
       <!-- RIGHT: detail panel -->
       <div class="prog-detail" id="progDetail">
-        <div class="prog-detail-img" id="progImg" style="background-image:url('images/conditions-reversed/lifestyle-disease-reversal.jpg?v=crr1');background-position:center 46%"></div>
+        <div class="prog-detail-img" id="progImg" style="background-image:url('images/conditions-reversed/detox-and-rejuvenation.jpg?v=crr1');background-position:center 50%"></div>
         <div class="prog-detail-body">
-          <div class="prog-detail-badge" id="progBadge">Most Popular</div>
-          <div class="prog-detail-title" id="progTitle">Lifestyle Disease <em>Reversal</em></div>
-          <p class="prog-detail-desc" id="progDesc">Diabetes, BP, obesity and chronic lifestyle conditions reversed through personalized naturopathy, diet therapy, yoga, and lifestyle medicine — naturally, without drugs.</p>
+          <div class="prog-detail-badge" id="progBadge">Deep Cleanse</div>
+          <div class="prog-detail-title" id="progTitle">Detoxification &amp; <em>Rejuvenation</em></div>
+          <p class="prog-detail-desc" id="progDesc">Feel sluggish, bloated, or constantly tired? Your body may need a reset. We use fasting, hydrotherapy, and mud therapy to clear toxins and restore your natural energy levels.</p>
           <div class="prog-detail-tags" id="progTags"></div>
         </div>
       </div>
 
     </div>
 
-    <!-- Mobile only: all six condition details as a sideways snap carousel.
+    <!-- Mobile only: all seven condition details as a sideways snap carousel.
          Hidden at min-width 769px so desktop keeps a single #progDetail. -->
     <div class="prog-carousel" id="progCarousel" aria-roledescription="carousel" aria-label="Conditions we reverse"></div>
   </section>
@@ -1889,6 +1898,27 @@ const IMAGES = {
             <div class="vt-dur">3:48</div>
           </div>
         </div>
+        <div class="vt-card" data-yt="gA0WmobdSS8">
+          <div class="vt-thumb">
+            <img class="vt-yt-img" src="https://img.youtube.com/vi/gA0WmobdSS8/hqdefault.jpg" alt="Testimonials" onerror="this.src='https://img.youtube.com/vi/gA0WmobdSS8/mqdefault.jpg'">
+            <button class="vt-play" onclick="openVideo('https://www.youtube.com/embed/gA0WmobdSS8')">▶</button>
+            <div class="vt-dur">1:01</div>
+          </div>
+        </div>
+        <div class="vt-card" data-yt="5F1-j6WUWpY">
+          <div class="vt-thumb">
+            <img class="vt-yt-img" src="https://img.youtube.com/vi/5F1-j6WUWpY/hqdefault.jpg" alt="Testimonials" onerror="this.src='https://img.youtube.com/vi/5F1-j6WUWpY/mqdefault.jpg'">
+            <button class="vt-play" onclick="openVideo('https://www.youtube.com/embed/5F1-j6WUWpY')">▶</button>
+            <div class="vt-dur">2:09</div>
+          </div>
+        </div>
+        <div class="vt-card" data-yt="CL6tD6h9Tfw">
+          <div class="vt-thumb">
+            <img class="vt-yt-img" src="https://img.youtube.com/vi/CL6tD6h9Tfw/hqdefault.jpg" alt="Testimonials" onerror="this.src='https://img.youtube.com/vi/CL6tD6h9Tfw/mqdefault.jpg'">
+            <button class="vt-play" onclick="openVideo('https://www.youtube.com/embed/CL6tD6h9Tfw')">▶</button>
+            <div class="vt-dur">1:38</div>
+          </div>
+        </div>
         <div class="vt-card" data-yt="Tpv8HLLr8dk">
           <div class="vt-thumb">
             <img class="vt-yt-img" src="https://img.youtube.com/vi/Tpv8HLLr8dk/hqdefault.jpg" alt="Testimonials" onerror="this.src='https://img.youtube.com/vi/Tpv8HLLr8dk/mqdefault.jpg'">
@@ -1923,7 +1953,7 @@ const IMAGES = {
           <div class="fs-card-badge">Founder</div>
           <h3>Anju Sakthivel</h3>
           <p class="fs-card-qual">Yoga Chikitsa Acharya</p>
-          <p class="fs-card-bio">With 15+ years of clinical experience, Dr. Anju Sakthivel designed the healing protocols at Cosmic Ayush. A dual-qualified naturopath and YCB-certified yoga therapist, she has helped over 5,000 patients reverse chronic illness — naturally and completely.</p>
+          <p class="fs-card-bio">With 15+ years of clinical experience, Anju Sakthivel designed the healing protocols at Cosmic Ayush. A dual-qualified naturopath and YCB-certified yoga therapist, she has helped over 5,000 patients reverse chronic illness — naturally and completely.</p>
         </div>
       </div>
 
@@ -1970,7 +2000,7 @@ const IMAGES = {
       </div>
       <div class="loc-card">
         <div class="loc-city"><div class="loc-dot"></div>Chennai</div>
-        <div class="loc-row"><span class="loc-ico">🏢</span><span>28, 2nd Street, Ravi Colony, St. Thomas Mount, Chennai – 600 016</span></div>
+        <div class="loc-row"><span class="loc-ico">🏢</span><span>28, 2nd Street, Ravi Colony, St. Thomas Mount, Chennai - 600016</span></div>
         <div class="loc-row"><span class="loc-ico">📞</span><span>73582 42163 / 73582 43063</span></div>
         <div class="loc-row"><span class="loc-ico">✉️</span><span>cosmicayushhospital@gmail.com</span></div>
       </div>
@@ -2019,7 +2049,7 @@ const IMAGES = {
           <div class="founder-badge">Founder</div>
           <h3>Anju Sakthivel</h3>
           <p class="founder-qual">Yoga Chikitsa Acharya</p>
-          <p class="founder-bio">Dr. Anju Sakthivel is a pioneering naturopath with over 15 years of clinical experience in treating chronic and lifestyle disorders. Her expertise spans neurology, metabolic conditions, and integrative wellness. She designed the clinical protocols that define the Cosmic Ayush approach — holistic, evidence-informed, and deeply patient-centred.</p>
+          <p class="founder-bio">Anju Sakthivel is a pioneering naturopath with over 15 years of clinical experience in treating chronic and lifestyle disorders. Her expertise spans neurology, metabolic conditions, and integrative wellness. She designed the clinical protocols that define the Cosmic Ayush approach — holistic, evidence-informed, and deeply patient-centred.</p>
           <div class="founder-tags">
             <span>Naturopathy</span><span>Yoga Therapy</span><span>Chronic Disease</span><span>Clinical Nutrition</span>
           </div>
@@ -2088,7 +2118,7 @@ const IMAGES = {
         <div class="dept-icon-row"><div class="dept-icon">🧠</div><h3>Neurology &amp; Oncology</h3></div>
         <div class="dept-body">
           <p class="dept-desc">We support neurological recovery and cancer care using drug-free therapies that calm the nervous system, reduce inflammation, and strengthen the body's innate healing capacity alongside conventional treatment.</p>
-          <div class="dept-conditions"><span class="dept-tag">Epilepsy</span><span class="dept-tag">Migraine</span><span class="dept-tag">Parkinson's</span><span class="dept-tag">Muscular Dystrophy</span><span class="dept-tag">Cerebral Palsy</span><span class="dept-tag">Stroke Rehab</span></div>
+          <div class="dept-conditions"><span class="dept-tag">Epilepsy</span><span class="dept-tag">Migraine</span><span class="dept-tag">Parkinsons</span><span class="dept-tag">Muscular Dystrophy</span><span class="dept-tag">Cerebral Palsy</span><span class="dept-tag">Multiple retardation</span><span class="dept-tag">Stroke</span></div>
         </div>
       </div>
 
@@ -2096,7 +2126,7 @@ const IMAGES = {
         <div class="dept-icon-row"><div class="dept-icon">❤️</div><h3>Pulmonology &amp; Cardiology</h3></div>
         <div class="dept-body">
           <p class="dept-desc">Breathwork, hydrotherapy, and dietary interventions work together to strengthen the heart, open the airways, and reverse lifestyle-driven damage — without side effects or dependency on medication.</p>
-          <div class="dept-conditions"><span class="dept-tag">Bronchial Asthma</span><span class="dept-tag">Nasal Allergy</span><span class="dept-tag">COPD</span><span class="dept-tag">Hypertension</span><span class="dept-tag">Heart Disease</span><span class="dept-tag">Post-Bypass Rehab</span></div>
+          <div class="dept-conditions"><span class="dept-tag">Bronchial Asthama</span><span class="dept-tag">Nasal Allery</span><span class="dept-tag">Chronic Bronchitis</span><span class="dept-tag">COPD</span><span class="dept-tag">High BP/Low BP Heart Diseases</span><span class="dept-tag">Post Bypass Rehabilitation</span></div>
         </div>
       </div>
 
@@ -2104,7 +2134,7 @@ const IMAGES = {
         <div class="dept-icon-row"><div class="dept-icon">🧘</div><h3>Psychiatry &amp; Mental Wellness</h3></div>
         <div class="dept-body">
           <p class="dept-desc">Our integrative mind-body approach — combining meditation, yoga nidra, tapping therapy, and nutritional support — helps restore emotional balance, reduce stress hormones, and build long-term mental resilience.</p>
-          <div class="dept-conditions"><span class="dept-tag">Anxiety</span><span class="dept-tag">Depression</span><span class="dept-tag">OCD</span><span class="dept-tag">Insomnia</span><span class="dept-tag">Stress Disorders</span><span class="dept-tag">De-Addiction</span></div>
+          <div class="dept-conditions"><span class="dept-tag">Anxiety</span><span class="dept-tag">Depression</span><span class="dept-tag">OCD Mental Retardation</span><span class="dept-tag">De-Addiction</span></div>
         </div>
       </div>
 
@@ -2112,7 +2142,7 @@ const IMAGES = {
         <div class="dept-icon-row"><div class="dept-icon">🦴</div><h3>Rheumatology</h3></div>
         <div class="dept-body">
           <p class="dept-desc">Mud therapy, anti-inflammatory diets, and targeted massage reduce joint swelling and pain at the root cause — restoring mobility and quality of life without long-term reliance on painkillers.</p>
-          <div class="dept-conditions"><span class="dept-tag">Osteoarthritis</span><span class="dept-tag">Rheumatoid Arthritis</span><span class="dept-tag">Gout</span><span class="dept-tag">Knee Pain</span><span class="dept-tag">Ligament Rehab</span></div>
+          <div class="dept-conditions"><span class="dept-tag">Osteoarthritis</span><span class="dept-tag">Rheumatoid Knee Pain</span><span class="dept-tag">Gout</span><span class="dept-tag">Ligamental Injury rehabilitation</span></div>
         </div>
       </div>
 
@@ -2120,7 +2150,7 @@ const IMAGES = {
         <div class="dept-icon-row"><div class="dept-icon">🔄</div><h3>Spinal Disorders</h3></div>
         <div class="dept-body">
           <p class="dept-desc">Therapeutic yoga, spinal traction, hydrotherapy, and postural correction work in harmony to decompress the spine, reduce nerve pain, and rebuild core strength for lasting relief.</p>
-          <div class="dept-conditions"><span class="dept-tag">Back Pain</span><span class="dept-tag">Lumbar Spondylosis</span><span class="dept-tag">Disc Prolapse</span><span class="dept-tag">Scoliosis</span><span class="dept-tag">Sciatica</span><span class="dept-tag">Cervical Pain</span></div>
+          <div class="dept-conditions"><span class="dept-tag">Acute &amp; Chronic Back Pain</span><span class="dept-tag">Lumbar Spondylosis</span><span class="dept-tag">Disc Prolapse</span><span class="dept-tag">Scoliosis</span><span class="dept-tag">Neck Pain</span><span class="dept-tag">Sciatica</span></div>
         </div>
       </div>
 
@@ -2128,7 +2158,7 @@ const IMAGES = {
         <div class="dept-icon-row"><div class="dept-icon">🌿</div><h3>Metabolic Disorders</h3></div>
         <div class="dept-body">
           <p class="dept-desc">Personalised meal planning, therapeutic fasting, and lifestyle restructuring help regulate blood sugar, balance hormones, and reverse metabolic disease — addressing the root cause, not just the numbers.</p>
-          <div class="dept-conditions"><span class="dept-tag">Type 2 Diabetes</span><span class="dept-tag">Pre-Diabetes</span><span class="dept-tag">PCOS</span><span class="dept-tag">Gestational Diabetes</span><span class="dept-tag">Insulin Resistance</span></div>
+          <div class="dept-conditions"><span class="dept-tag">Diabetes</span><span class="dept-tag">Pre-Diabetic</span><span class="dept-tag">PCOS</span><span class="dept-tag">Gestational Diabetes</span></div>
         </div>
       </div>
 
@@ -2136,7 +2166,7 @@ const IMAGES = {
         <div class="dept-icon-row"><div class="dept-icon">🫁</div><h3>Gastroenterology</h3></div>
         <div class="dept-body">
           <p class="dept-desc">Gut healing through structured fasting, probiotic-rich diets, enema therapy, and stress reduction — restoring digestive harmony and repairing the gut lining from the inside out.</p>
-          <div class="dept-conditions"><span class="dept-tag">Gastritis</span><span class="dept-tag">IBS</span><span class="dept-tag">Ulcerative Colitis</span><span class="dept-tag">Fatty Liver</span><span class="dept-tag">Liver Cirrhosis</span><span class="dept-tag">Chronic Renal Failure</span></div>
+          <div class="dept-conditions"><span class="dept-tag">Gastritis</span><span class="dept-tag">Peptic Ulcer</span><span class="dept-tag">Irritable Bowel Syndrome (IBS)</span><span class="dept-tag">Ulcerative Colitis Liver Cirrhosis</span><span class="dept-tag">Chronic Renal Failure</span></div>
         </div>
       </div>
 
@@ -2144,7 +2174,7 @@ const IMAGES = {
         <div class="dept-icon-row"><div class="dept-icon">⚖️</div><h3>Endocrinology</h3></div>
         <div class="dept-body">
           <p class="dept-desc">Hormonal balance restored naturally — through targeted nutrition, therapeutic exercise, chromotherapy, and stress management that address the glandular imbalances driving metabolic dysfunction.</p>
-          <div class="dept-conditions"><span class="dept-tag">Obesity</span><span class="dept-tag">Hypothyroidism</span><span class="dept-tag">Hyperthyroidism</span><span class="dept-tag">Dyslipidemia</span><span class="dept-tag">Adrenal Fatigue</span></div>
+          <div class="dept-conditions"><span class="dept-tag">Obesity</span><span class="dept-tag">Over Weight</span><span class="dept-tag">Hypothyroidism</span><span class="dept-tag">Dyslipidemia</span></div>
         </div>
       </div>
 
@@ -2152,7 +2182,7 @@ const IMAGES = {
         <div class="dept-icon-row"><div class="dept-icon">✨</div><h3>Positive Health &amp; Wellness</h3></div>
         <div class="dept-body">
           <p class="dept-desc">Beyond treating disease — we help healthy individuals detoxify, rejuvenate, and build vibrant reserves of energy, immunity, and vitality through our signature wellness and prevention programs.</p>
-          <div class="dept-conditions"><span class="dept-tag">Detox &amp; Rejuvenation</span><span class="dept-tag">Immunity Building</span><span class="dept-tag">Eye Wellness</span><span class="dept-tag">Anti-Ageing</span><span class="dept-tag">Beauty &amp; Skin Care</span></div>
+          <div class="dept-conditions"><span class="dept-tag">De-toxification &amp; Rejuvenation</span><span class="dept-tag">Eye Problems</span><span class="dept-tag">Beauty</span></div>
         </div>
       </div>
 
@@ -2262,6 +2292,7 @@ const IMAGES = {
       <button class="gf-btn" onclick="filterGallery('events', this)">Events</button>
       <button class="gf-btn" onclick="filterGallery('hospital', this)">Hospital</button>
       <button class="gf-btn" onclick="filterGallery('team', this)">Team</button>
+      <button class="gf-btn" onclick="filterGallery('registration', this)">Registration</button>
     </div>
 
     <div class="gallery-grid" id="galleryGrid">
@@ -2325,6 +2356,10 @@ const IMAGES = {
       <div class="g-item" data-cat="hospital">
         <img src="images/gallery/hospital/hospital-6.jpeg" alt="Hospital treatment rooms"/>
         <div class="g-overlay"><span class="g-cat">Hospital</span><p>Treatment rooms and hospital facilities</p></div>
+      </div>
+      <div class="g-item g-wide g-tall g-doc" data-cat="registration">
+        <img src="images/gallery/registration/registration-certificate.jpg" alt="Tamil Nadu clinical establishment registration certificate for Cosmic Ayush Hospital"/>
+        <div class="g-overlay"><span class="g-cat">Registration</span><p>Clinical establishment registration certificate — Government of Tamil Nadu</p></div>
       </div>
 
     </div>
@@ -2473,7 +2508,7 @@ const IMAGES = {
           <div class="aside-contact-row"><span class="ico">📱</span><div><strong>Call / WhatsApp</strong>73582 42163 · 73582 43063</div></div>
           <div class="aside-contact-row"><span class="ico">✉️</span><div><strong>Email</strong>cosmicayushhospital@gmail.com</div></div>
           <div class="aside-contact-row"><span class="ico">📍</span><div><strong>Vellore</strong>1237, 4th Floor, 4th Main Road, Phase II, Sathuvachari – 632 009</div></div>
-          <div class="aside-contact-row"><span class="ico">📍</span><div><strong>Chennai</strong>28, 2nd Street, Ravi Colony, St. Thomas Mount – 600 016</div></div>
+          <div class="aside-contact-row"><span class="ico">📍</span><div><strong>Chennai</strong>28, 2nd Street, Ravi Colony, St. Thomas Mount, Chennai - 600016</div></div>
         </div>
         <div class="aside-hours">
           <h3>🕐 Clinic Hours</h3>
@@ -2580,7 +2615,7 @@ const IMAGES = {
     <p style="margin-top:8px;font-weight:600;color:rgba(255,255,255,0.5);font-size:11px;letter-spacing:0.08em;text-transform:uppercase;">Vellore</p>
     <p>1237, 4th Floor, 4th Main Road, Phase II, Sathuvachari, Vellore – 632 009</p>
     <p style="margin-top:8px;font-weight:600;color:rgba(255,255,255,0.5);font-size:11px;letter-spacing:0.08em;text-transform:uppercase;">Chennai</p>
-    <p>No. 22, 2nd Floor, Jagadambal St, Mylapore, Chennai – 600 004</p>
+    <p>28, 2nd Street, Ravi Colony, St. Thomas Mount, Chennai - 600016</p>
   </div>
 </footer>
 <div class="footer-bottom">
@@ -2748,36 +2783,41 @@ function filterGallery(cat, btn) {
 
 // ── PROGRAMS hover detail ──
 const progData = [
+  { img:'images/conditions-reversed/detox-and-rejuvenation.jpg?v=crr1',
+    pos:'center 50%',
+    badge:'Deep Cleanse', title:'Detoxification &amp; <em>Rejuvenation</em>',
+    desc:`Feel sluggish, bloated, or constantly tired? Your body may need a reset. We use fasting, hydrotherapy, and mud therapy to clear toxins and restore your natural energy levels.`,
+    tags:[] },
+  { img:'images/conditions-reversed/migraine-and-stress-management.jpg?v=crr1',
+    pos:'center 52%',
+    badge:'Mind & Body', title:'Migraine &amp; <em>Stress Management</em>',
+    desc:`Chronic headaches and stress are signals your body sends when overloaded. We calm the nervous system naturally — no antidepressants, no painkillers — through yoga, acupressure, and guided relaxation.`,
+    tags:[] },
+  { img:'images/conditions-reversed/lifestyle-disease-reversal.jpg?v=crr1',
+    pos:'center 46%',
+    badge:'Metabolic Care', title:'Diabetes &amp; Obesity <em>Management</em>',
+    desc:`Blood sugar and weight are easier to live with when daily habits change with them. This program uses personalized diet, yoga, and lifestyle medicine to support diabetes, obesity, and metabolic care — naturally, without relying on drugs alone.`,
+    tags:[] },
+  { img:'images/conditions-reversed/spine-and-joint-rehabilitation.jpg?v=crr1',
+    pos:'center 48%',
+    badge:'Move Pain-Free', title:'Spine, Joint &amp; Musculoskeletal <em>Rehabilitation</em>',
+    desc:`Back pain, knee pain, or a slipped disc should not limit your life. Our drugless rehab uses targeted yoga, massage, and mud therapy to strengthen, heal, and restore your movement naturally.`,
+    tags:[] },
   { img:'images/conditions-reversed/lifestyle-disease-reversal.jpg?v=crr1',
     pos:'center 46%',
     badge:'Most Popular', title:'Lifestyle Disease <em>Reversal</em>',
     desc:`If you have been told your diabetes, blood pressure, or weight is lifelong — we challenge that. Our program addresses the root cause through diet, detox, and movement, not just managing symptoms.`,
-    tags:['Diabetes','High BP','Obesity','PCOS','Thyroid','Fatty Liver'] },
-  { img:'images/conditions-reversed/detox-and-rejuvenation.jpg?v=crr1',
-    pos:'center 50%',
-    badge:'Deep Cleanse', title:'Detox &amp; <em>Rejuvenation</em>',
-    desc:`Feel sluggish, bloated, or constantly tired? Your body may need a reset. We use fasting, hydrotherapy, and mud therapy to clear toxins and restore your natural energy levels.`,
-    tags:['Fatigue','Bloating','Skin Issues','Brain Fog','Low Energy','Sluggish Digestion'] },
-  { img:'images/conditions-reversed/migraine-and-stress-management.jpg?v=crr1',
-    pos:'center 52%',
-    badge:'Mind & Body', title:'Migraine &amp; <em>Stress Relief</em>',
-    desc:`Chronic headaches and stress are signals your body sends when overloaded. We calm the nervous system naturally — no antidepressants, no painkillers — through yoga, acupressure, and guided relaxation.`,
-    tags:['Migraine','Anxiety','Insomnia','Chronic Stress','Burnout','Tension Headaches'] },
-  { img:'images/conditions-reversed/spine-and-joint-rehabilitation.jpg?v=crr1',
-    pos:'center 48%',
-    badge:'Move Pain-Free', title:'Spine &amp; Joint <em>Rehabilitation</em>',
-    desc:`Back pain, knee pain, or a slipped disc should not limit your life. Our drugless rehab uses targeted yoga, massage, and mud therapy to strengthen, heal, and restore your movement naturally.`,
-    tags:['Back Pain','Sciatica','Slipped Disc','Spondylosis','Knee Pain','Neck Pain'] },
+    tags:[] },
   { img:'images/conditions-reversed/preventive-wellness.jpg?v=crr1',
     pos:'center 58%',
-    badge:'Stay Well', title:'Preventive <em>Wellness</em>',
+    badge:'Stay Well', title:'Preventive Health &amp; Positive <em>Wellness</em>',
     desc:`The best time to treat illness is before it starts. This program strengthens immunity, reduces stress, and corrects imbalances — so your body stays resilient against lifestyle diseases long-term.`,
-    tags:['Low Immunity','Work Stress','Hormonal Imbalance','Aging','Fatigue','Preventive Care'] },
+    tags:[] },
   { img:'images/conditions-reversed/pain-management.jpg?v=crr1',
     pos:'center 48%',
-    badge:'No Painkillers', title:'Natural <em>Pain Management</em>',
+    badge:'No Painkillers', title:'Pain <em>Management</em>',
     desc:`Pain that keeps coming back despite medication means the cause has not been treated. We use acupuncture, hydrotherapy, and herbal methods to reduce pain without drugs or dependency.`,
-    tags:['Chronic Pain','Arthritis','Fibromyalgia','Nerve Pain','Post-Surgery Pain','Joint Stiffness'] }
+    tags:[] }
 ];
 function setProgram(idx) {
   const d = progData[idx];
